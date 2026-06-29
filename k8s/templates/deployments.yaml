@@ -1,0 +1,89 @@
+# Demo workload Deployments based on the KEDA sample:
+# https://github.com/kedacore/sample-dotnet-worker-servicebus-queue/blob/main/deploy/workload-identity/deploy-app-with-workload-identity.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workload-a
+  namespace: app-a
+  labels:
+    app: workload-a
+spec:
+  selector:
+    matchLabels:
+      app: workload-a
+  template:
+    metadata:
+      labels:
+        app: workload-a
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: workload-a-sa
+      containers:
+        - name: order-processor
+          image: ghcr.io/kedacore/sample-dotnet-worker-servicebus-queue:latest
+          env:
+            - name: KEDA_SERVICEBUS_AUTH_MODE
+              value: WorkloadIdentity
+            - name: KEDA_SERVICEBUS_HOST_NAME
+              value: <SB_A_NAMESPACE>.servicebus.windows.net
+            - name: KEDA_SERVICEBUS_QUEUE_NAME
+              value: orders
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workload-b
+  namespace: app-b
+  labels:
+    app: workload-b
+spec:
+  selector:
+    matchLabels:
+      app: workload-b
+  template:
+    metadata:
+      labels:
+        app: workload-b
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: workload-b-sa
+      containers:
+        - name: order-processor
+          image: ghcr.io/kedacore/sample-dotnet-worker-servicebus-queue:latest
+          env:
+            - name: KEDA_SERVICEBUS_AUTH_MODE
+              value: WorkloadIdentity
+            - name: KEDA_SERVICEBUS_HOST_NAME
+              value: <SB_B_NAMESPACE>.servicebus.windows.net
+            - name: KEDA_SERVICEBUS_QUEUE_NAME
+              value: orders
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workload-c
+  namespace: app-c
+  labels:
+    app: workload-c
+spec:
+  selector:
+    matchLabels:
+      app: workload-c
+  template:
+    metadata:
+      labels:
+        app: workload-c
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: workload-c-sa
+      containers:
+        - name: order-processor
+          image: ghcr.io/kedacore/sample-dotnet-worker-servicebus-queue:latest
+          env:
+            - name: KEDA_SERVICEBUS_AUTH_MODE
+              value: WorkloadIdentity
+            - name: KEDA_SERVICEBUS_HOST_NAME
+              value: <SB_C_NAMESPACE>.servicebus.windows.net
+            - name: KEDA_SERVICEBUS_QUEUE_NAME
+              value: orders

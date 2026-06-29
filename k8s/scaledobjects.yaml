@@ -1,0 +1,60 @@
+# ScaledObjects — one per workload. Each references its own TriggerAuthentication
+# (same namespace) so KEDA assumes that workload's identity when polling the
+# queue length on that workload's Service Bus.
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: workload-a-scaler
+  namespace: app-a
+spec:
+  scaleTargetRef:
+    name: workload-a
+  minReplicaCount: 0
+  maxReplicaCount: 10
+  triggers:
+    - type: azure-servicebus
+      metadata:
+        namespace: sb-workload-a
+        queueName: orders
+        messageCount: "5"
+      authenticationRef:
+        name: workload-a-auth
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: workload-b-scaler
+  namespace: app-b
+spec:
+  scaleTargetRef:
+    name: workload-b
+  minReplicaCount: 0
+  maxReplicaCount: 10
+  triggers:
+    - type: azure-servicebus
+      metadata:
+        namespace: sb-workload-b
+        queueName: orders
+        messageCount: "5"
+      authenticationRef:
+        name: workload-b-auth
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: workload-c-scaler
+  namespace: app-c
+spec:
+  scaleTargetRef:
+    name: workload-c
+  minReplicaCount: 0
+  maxReplicaCount: 10
+  triggers:
+    - type: azure-servicebus
+      metadata:
+        namespace: sb-workload-c
+        queueName: orders
+        messageCount: "5"
+      authenticationRef:
+        name: workload-c-auth

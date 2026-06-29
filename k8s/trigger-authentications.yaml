@@ -1,0 +1,40 @@
+# TriggerAuthentication — one per workload, living in the workload's namespace
+# (a ScaledObject can only reference a TriggerAuthentication in its OWN namespace).
+#
+# Case 2: each one OVERRIDES the default KEDA identity via
+# spec.podIdentity.identityId, pointing at that workload's managed-identity
+# clientId. KEDA's operator SA must be federated with each of these identities
+# (see scripts/04-federated-credentials.sh) for the override to work.
+#
+# A TriggerAuthentication WITHOUT identityId would fall back to KEDA's default
+# identity (id-keda) — used for unrelated tasks such as Key Vault, not shown here.
+---
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: workload-a-auth
+  namespace: app-a
+spec:
+  podIdentity:
+    provider: azure-workload
+    identityId: "ab1026d2-d51d-4a8b-bf9c-3068cb335f37"
+---
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: workload-b-auth
+  namespace: app-b
+spec:
+  podIdentity:
+    provider: azure-workload
+    identityId: "f332dd3f-45ce-4551-b36a-2b6ea975ac3a"
+---
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: workload-c-auth
+  namespace: app-c
+spec:
+  podIdentity:
+    provider: azure-workload
+    identityId: "174cf40d-0da3-46c8-9ac1-a6eda9fd8ceb"

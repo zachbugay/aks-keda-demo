@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Keda.Samples.Dotnet.Contracts/Keda.Samples.Dotnet.Contracts.csproj" />
+  <Project Path="Keda.Samples.Dotnet.OrderGenerator/Keda.Samples.Dotnet.OrderGenerator.csproj" />
+</Solution>

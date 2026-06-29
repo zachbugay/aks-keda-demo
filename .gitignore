@@ -1,0 +1,48 @@
+# .NET / C# build artifacts
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+out/
+publish/
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Test results
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+coverage*/
+TestResults/
+
+# Visual Studio / Rider IDE
+.vs/
+.vscode/settings.json
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+.idea/
+*.DotSettings.user
+
+# Rider
+.idea/
+
+# Runtime / OS
+*.DS_Store
+Thumbs.db
+desktop.ini
+
+# Rendered k8s manifests
+k8s/*
+!/k8s/templates/
+!/k8s/templates/**
