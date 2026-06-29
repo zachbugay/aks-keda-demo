@@ -3,6 +3,9 @@
 [KEDA](https://keda.sh) on AKS using Azure AD Workload Identity,
 following the Case 2 identity pattern so the KEDA operator never needs direct Service Bus access.
 
+>[!NOTE]
+> This is an updated demo taken from the [kedacore samples](https://github.com/kedacore/sample-dotnet-worker-servicebus-queue/blob/main/workload-identity.md).
+
 ## Overview
 
 Three workloads (A, B, C) each pull from their own Azure Service Bus queue.
